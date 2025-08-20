@@ -1,0 +1,22 @@
+package com.miApp.AppS.service;
+
+import com.miApp.AppS.dto.UserDTO;
+import com.miApp.AppS.repository.UserRepository;
+
+import java.util.List;
+
+public interface UserService {
+
+    List<UserDTO> getAllUsers();
+
+    UserDTO findAllUsers();
+
+    //UserDTO authenticateUser(String email, String password);
+
+    UserRepository findByEmail(String email);
+    UserDTO createUser(UserDTO userDTO);
+    UserDTO getUserById(Long userId);
+    UserDTO updateUser(Long userId, UserDTO userDTO);
+    boolean deleteUser(Long userId);
+
+}
