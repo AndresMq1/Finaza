@@ -13,7 +13,7 @@ public interface UserService {
 
     //UserDTO authenticateUser(String email, String password);
 
-    UserRepository findByEmail(String email);
+
     UserDTO createUser(UserDTO userDTO);
     UserDTO getUserById(Long userId);
     UserDTO updateUser(Long userId, UserDTO userDTO);

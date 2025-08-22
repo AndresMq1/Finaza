@@ -1,38 +1,48 @@
 package com.miApp.AppS.Impl;
 
 import com.miApp.AppS.dto.CategoryDTO;
+import com.miApp.AppS.entity.Category;
+import com.miApp.AppS.exceptions.CustomException;
 import com.miApp.AppS.repository.CategoryRepository;
 import com.miApp.AppS.service.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    @Autowired
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.categoryRepository = categoryRepository;
-    }
-
-
-    public CategoryServiceImpl() {
-        this.categoryRepository = null; // This is not a good practice, but included to match the constructor signature.
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public CategoryDTO findAllCategories() {
-        return null;
+    public List<CategoryDTO> getAllCategory() {
+        List<Category> categories = categoryRepository.findAll();
+        return   categories.stream().map(category -> modelMapper.map(category, CategoryDTO.class)).collect(Collectors.toList());
     }
+
 
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
-        return null;
+        Category category = modelMapper.map(categoryDTO, Category.class);
+        category = categoryRepository.save(category);
+        return modelMapper.map(category, CategoryDTO.class);
     }
 
     @Override
     public CategoryDTO getCategoryById(Long categoryId) {
-        return null;
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CustomException("User not found with id:" + categoryId));
+        return modelMapper.map(category, CategoryDTO.class);
     }
 
     @Override
@@ -41,7 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long categoryId) {
-
+    public boolean deleteCategory(Long categoryId) {
+        if (! categoryRepository.existsById(categoryId)){
+            throw new CustomException("Category not found with id:" + categoryId);
+        }
+        categoryRepository.deleteById(categoryId);
+        return true;
     }
 }

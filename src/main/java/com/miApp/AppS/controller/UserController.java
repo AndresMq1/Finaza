@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/app/users")
 public class UserController {
 
     private final UserService userService;
-
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -26,7 +24,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
     //Endpoint to create a new user
-    @GetMapping("/{userId}")
+    @GetMapping("/id/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
         UserDTO user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
@@ -36,6 +34,11 @@ public class UserController {
     public ResponseEntity<UserDTO> createUser(@Validated @RequestBody UserDTO userDTO) {
         userService.createUser(userDTO);
         return ResponseEntity.ok(userDTO);
+    }
 
+    @DeleteMapping("/eliminarU/{userId}")
+    public ResponseEntity<Long> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(userId);
     }
 }
