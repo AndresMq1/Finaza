@@ -1,6 +1,7 @@
 package com.miApp.AppS.dto;
 
 import lombok.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,9 +14,9 @@ public class TransactionDTO {
 
     private Long idTransaction;
 
-    private String user;
+    private Long idUser;
 
-    private String category;
+    private Long idCategory;
 
     private String type;
 

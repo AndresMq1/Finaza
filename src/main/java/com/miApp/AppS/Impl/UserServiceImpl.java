@@ -54,10 +54,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUser(Long userId, UserDTO userDTO) {
-        User user = userRepository.findById(userDTO.getUserId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException("User not found with id:" + userId));
-        user.setName(userDTO.getName());
-        user.setEmail(userDTO.getEmail());
+
+        modelMapper.map(userDTO, user);
+
         User updateUser = userRepository.save(user);
         return modelMapper.map(updateUser, UserDTO.class);
 
