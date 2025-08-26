@@ -75,15 +75,19 @@ public class TransactionServiceImpl  implements TransactionService {
                 .orElseThrow(() -> new CustomException("Transaction no encontrada id:" + transactionId));
 
         modelMapper.map(transactionDTO, transaction);
-
         transaction.setTransactionDate(LocalDateTime.now());
+
         Transaction savedTransaction = transactionRepository.save(transaction);
         return modelMapper.map(savedTransaction, TransactionDTO.class);
 
     }
 
     @Override
-    public void deleteTransaction(Long transactionId) {
-
+    public boolean deleteTransaction(Long transactionId) {
+        if(!transactionRepository.existsById(transactionId)) {
+            throw new CustomException("Transaction no encontrada id:" + transactionId);
+        }
+        transactionRepository.deleteById(transactionId);
+        return true;
     }
 }

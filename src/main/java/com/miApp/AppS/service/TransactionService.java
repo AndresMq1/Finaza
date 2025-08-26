@@ -10,6 +10,6 @@ public interface TransactionService {
     TransactionDTO createTransaction(TransactionDTO transactionDTO);
     TransactionDTO getTransactionById(Long transactionId);
     TransactionDTO updateTransaction(Long transactionId, TransactionDTO transactionDTO);
-    void deleteTransaction(Long transactionId);
+    boolean deleteTransaction(Long transactionId);
 
 }

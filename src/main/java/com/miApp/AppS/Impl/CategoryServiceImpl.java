@@ -47,7 +47,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO updateCategory(Long categoryId, CategoryDTO categoryDTO) {
-        return null;
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CustomException("User not found with id:" + categoryId));
+
+        modelMapper.map(categoryDTO, category);
+
+        category = categoryRepository.save(category);
+        return modelMapper.map(category, CategoryDTO.class);
+
     }
 
     @Override

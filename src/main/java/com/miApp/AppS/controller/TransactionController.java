@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/app/Transacton")
+@RequestMapping("/app/Transaction")
 public class TransactionController {
 
 
@@ -39,4 +39,17 @@ public class TransactionController {
         TransactionDTO transactionDTO = transactionService.getTransactionById(id);
         return ResponseEntity.ok(transactionDTO);
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<TransactionDTO> deleteTransactionById(@PathVariable Long id) {
+        transactionService.deleteTransaction(id);
+        return ResponseEntity.ok(transactionService.getTransactionById(id));
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<TransactionDTO> updateTransaction( @RequestBody TransactionDTO transactionDTO, @PathVariable Long id) {
+        TransactionDTO transaction =  transactionService.updateTransaction(id, transactionDTO);
+        return ResponseEntity.ok(transaction);
+    }
+
 }

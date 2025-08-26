@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long userId, UserDTO userDTO) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new CustomException("User not found with id:" + userId));
+                .orElseThrow(() -> new CustomException("no se encontro el id:" + userId));
 
         modelMapper.map(userDTO, user);
 
